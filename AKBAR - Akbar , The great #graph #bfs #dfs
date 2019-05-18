@@ -1,0 +1,101 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair
+#define mp make_pair
+#define pb push_back
+#define ve vector<ll>
+#define vep vector< pa<ll ,ll> >
+#define c(t) cout<<t<<"\n"
+using namespace std;
+ll vi[1000001];
+ll n,c=0;
+void bfs(vector<ll> adj[],ll k,ll s)
+{  queue <ll> q;
+   q.push(k);
+   vi[k]=k;
+   ll d[n+1],p[n+1];
+   d[k]=0;
+   while(!q.empty()&&c!=1)
+   {
+   ll v=q.front();
+   q.pop();
+   if(d[v]+1<=s)
+       {f(i,0,adj[v].size())
+       { if(vi[adj[v][i]]==0)
+         {vi[adj[v][i]]=k;
+         q.push(adj[v][i]);
+         d[adj[v][i]]=d[v]+1;
+         p[adj[v][i]]=v;}
+         else if(vi[adj[v][i]]!=k)
+         {
+             c=1;
+             break;
+         }
+       }}
+       else
+        break;
+    }
+}
+void solve()
+{   ll r,m;
+    cin>>n>>r>>m;
+    vector<ll> adj[n+1];
+    f(i,0,r)
+    {
+        ll v1,v2;
+        cin>>v1>>v2;
+        adj[v1].pb(v2);
+        adj[v2].pb(v1);
+    }
+    vep adj1;
+    f(i,0,m)
+    {
+        ll k,s;
+        cin>>k>>s;
+        adj1.pb(mp(k,s));
+    }
+     ll i=0;
+    while(m--&&c==0)
+    {   if(vi[adj1[i].fi]==0)
+        bfs(adj,adj1[i].fi,adj1[i].se);
+        else
+        c=1;
+        i++;
+    }
+    if(c==0)
+{
+    f(i,1,n+1)
+    {
+        if(vi[i]==0)
+        {
+            c=1;
+            break;
+        }
+    }
+}
+if(c==0)
+    cout<<"Yes\n";
+else
+    cout<<"No\n";
+
+}
+int main()
+{
+    ios::sync_with_stdio(true);
+    cin.tie(0);
+    cout.tie(0);
+    ll t;
+    cin>>t;
+    while(t--)
+    {   f(i,1,1000001)
+        vi[i]=0;
+        c=0;
+        solve();
+    }
+return 0;
+}
