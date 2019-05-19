@@ -1,0 +1,102 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define fi first
+#define se second
+#define pa pair
+#define mp make_pair
+#define pb push_back
+#define ve vector<ll>
+#define vep vector< pa<ll ,ll> >
+#define c(t) cout<<t<<"\n"
+using namespace std;
+bool vi[65];
+void bfs(string s,string de)
+{  ll f=s.at(0)-96,l=56-s.at(1),fd=de.at(0)-96,ld=56-de.at(1);
+    queue<ll> q;
+    q.push(8*l+f);
+    vi[8*l+f]=1;
+    ll d[65];
+    d[8*l+f]=0;
+    ll x=0;
+    while(!q.empty())
+    {
+        ll v=q.front();
+        q.pop();
+        //c(v);
+        if(v==8*ld+fd)
+        {
+            x=d[v];
+            //c(v);
+            break;
+        }l=v/8;
+         f=v%8;
+         if(f==0)
+         {f=8;
+          l=l-1;
+         }
+        if(l-2<=7&&l-2>=0&&f-1<=8&&f-1>=1&&vi[8*(l-2)+(f-1)]==0)
+        {vi[8*(l-2)+(f-1)]=1;
+         q.push(8*(l-2)+(f-1));
+         d[8*(l-2)+(f-1)]=d[v]+1;
+        }
+         if(l-2<=7&&l-2>=0&&f+1<=8&&f+1>=1&&vi[8*(l-2)+(f+1)]==0)
+        {vi[8*(l-2)+(f+1)]=1;
+         q.push(8*(l-2)+(f+1));
+         d[8*(l-2)+(f+1)]=d[v]+1;
+        }
+         if(l+2<=7&&l+2>=0&&f-1<=8&&f-1>=1&&vi[8*(l+2)+(f-1)]==0)
+        {vi[8*(l+2)+(f-1)]=1;
+         q.push(8*(l+2)+(f-1));
+         d[8*(l+2)+(f-1)]=d[v]+1;
+        }
+         if(l+2<=7&&l+2>=0&&f+1<=8&&f+1>=1&&vi[8*(l+2)+(f+1)]==0)
+        {vi[8*(l+2)+(f+1)]=1;
+         q.push(8*(l+2)+(f+1));
+         d[8*(l+2)+(f+1)]=d[v]+1;
+        }
+         if(l-1<=7&&l-1>=0&&f-2<=8&&f-2>=1&&vi[8*(l-1)+(f-2)]==0)
+        {vi[8*(l-1)+(f-2)]=1;
+         q.push(8*(l-1)+(f-2));
+         d[8*(l-1)+(f-2)]=d[v]+1;
+        }
+         if(l-1<=7&&l-1>=0&&f+2<=8&&f+2>=1&&vi[8*(l-1)+(f+2)]==0)
+        {vi[8*(l-1)+(f+2)]=1;
+         q.push(8*(l-1)+(f+2));
+         d[8*(l-1)+(f+2)]=d[v]+1;
+        }
+         if(l+1<=7&&l+1>=0&&f-2<=8&&f-2>=1&&vi[8*(l+1)+(f-2)]==0)
+        {vi[8*(l+1)+(f-2)]=1;
+         q.push(8*(l+1)+(f-2));
+         d[8*(l+1)+(f-2)]=d[v]+1;
+        }
+         if(l+1<=7&&l+1>=0&&f+2<=8&&f+2>=1&&vi[8*(l+1)+(f+2)]==0)
+        {vi[8*(l+1)+(f+2)]=1;
+         q.push(8*(l+1)+(f+2));
+         d[8*(l+1)+(f+2)]=d[v]+1;
+        }
+    }
+    c(x);
+}
+void solve()
+{   string s,d;
+    cin>>s>>d;
+    bfs(s,d);
+}
+int main()
+{
+    ios::sync_with_stdio(true);
+    cin.tie(0);
+    cout.tie(0);
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+       f(i,0,65)
+        vi[i]=0;
+        solve();
+    }
+return 0;
+}
