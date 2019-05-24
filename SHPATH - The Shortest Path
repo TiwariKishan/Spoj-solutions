@@ -1,0 +1,126 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define f(i,a,b) for(ll i=a;i<b;i++)
+#define mod 1000000007
+#define inf 1000000000
+#define fi first
+#define se second
+#define pa pair
+#define mp make_pair
+#define pb push_back
+#define ve vector<ll>
+#define vep vector< pa<ll ,ll> >
+#define c(t) cout<<t<<"\n"
+typedef pair<ll, ll> pi;
+using namespace std;
+const ll INF = 1000000000;
+vector<vector<pair<ll, ll> > > adj;
+vector<ll> d,p;
+ll dijkstra(ll s, vector<ll> &  d, vector<ll> & p,ll e)     //Min priority queue is used in this problem by which time complexity gets reduces
+ {  priority_queue<pi, vector<pi>, greater<pi> > pq;
+    ll n = adj.size();
+    d.assign(n, INF);
+    p.assign(n, -1);
+    vector<bool> u(n, false);
+    pq.push((mp(0,s)));
+    d[s] = 0;
+    while(!pq.empty()) {
+        ll v=0;
+        v=pq.top().se;
+        pq.pop();
+        /*for (ll j = 0; j < n; j++) {
+            if (!u[j] && (v == -1 || d[j] < d[v]))
+                v = j;
+        }*/
+        if(v==e)
+            break;
+        if (d[v] == INF)
+            break;
+        if(u[v])
+            continue;
+
+        u[v] = true;
+        for (ll edge=0; edge<adj[v].size();edge++) {
+            ll to = adj[v][edge].first;
+            ll len = adj[v][edge].second;
+
+            if (d[v] + len < d[to]) {
+                d[to] = d[v] + len;
+                pq.push((mp(d[to],to)));
+                p[to] = v;
+            }
+        }
+    }
+    return d[e];
+}
+vector<ll> restore_path(ll s, ll t, vector<ll> const& p) {
+    vector<ll> path;
+
+    for (ll v = t; v != s; v = p[v])
+        path.push_back(v);
+    path.push_back(s);
+
+    reverse(path.begin(), path.end());
+    return path;
+}
+void solve()
+{  ll n;
+   cin>>n;
+   string s[n+1];
+   vep o;
+   o.assign(n+1,mp(0,0));
+   adj.assign(n+1,o);        //First assign something to it then it works for equaling to some another
+   vep dc[n+1];
+   f(i,1,n+1)
+   {
+    cin>>s[i];
+    ll d;
+    cin>>d;
+      f(j,0,d)
+   {
+       ll a,b;
+       cin>>a>>b;
+       dc[i].pb(mp(a,b));
+       adj[i]=dc[i];
+   }
+   }
+   ll x;
+   cin>>x;
+   string se[x+1],sf[x+1];
+   f(i,1,x+1)
+   {   ll hg=-1,hj=-1;
+       cin>>se[i]>>sf[i];
+       f(j,1,n+1)
+       {
+           if(s[j]==se[i])
+           {
+               hg=j;
+           }
+
+            if(s[j]==sf[i])
+           {
+               hj=j;
+           }
+           if(hg!=-1&&hj!=-1)
+            break;
+       }
+       ll jk;
+       jk=dijkstra(hg,d,p,hj);
+       c(jk);
+   }
+}
+int main()
+{
+    ios::sync_with_stdio(true);
+    cin.tie(0);
+    cout.tie(0);
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+
+        solve();
+    }
+return 0;
+}
